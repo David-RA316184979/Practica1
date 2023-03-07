@@ -1,7 +1,7 @@
 import fileinput
 import re
 
-#Funcion para determinar si el texto claro tiene un hexadecimal
+#El texto es HEX?
 def EncontrarHexa(texto):
     existe = 0
     patron = r'\b[0-9A-F]+\b'
@@ -10,14 +10,15 @@ def EncontrarHexa(texto):
 
 
 def KSA(key):
-    key_length = len(key) 
-    S = list(range(256))
+    key_length = len(key) #asegurar que la long es la misma
+    S = list(range(256)) #tamaño maximo
     j = 0
     for i in range(256):
         j = (j + S[i] + key[i % key_length]) % 256
         S[i], S[j] = S[j], S[i] 
     return S
 
+#Cambios
 def PRGA(S):
     i = 0
     j = 0
@@ -28,30 +29,26 @@ def PRGA(S):
         K = S[(S[i] + S[j]) % 256]
         yield K
 
+#RC4
 def RC4(key):
     key = [ord(c) for c in key]
     S = KSA(key)
 
     return PRGA(S)
 
-#Para obtener el input de la llave y el texto claro
+#Obtener el texto
 lines = []
 for line in fileinput.input():
     lines.append(line)
-
+#decir que es que
 key = lines[0].strip()
 textoclaro = lines[1].strip()
-#key = "Secret"
-#textoclaro = "Attack at dawn"
-#textoclaro = "BBF316E8D940AF0AD3"
-
 
 
 keystream = RC4(key)
 #convierte en bytes la cadena
 plaintext = [ord(c) for c in textoclaro] 
 ciphertext = []
-#zip es una función que itera al mismo tiempo en dos colecciones
 for p,k in zip(plaintext, keystream): 
     #agrega un nuevo elemento que se le haya hecho xor
     ciphertext.append(p ^ k) 
