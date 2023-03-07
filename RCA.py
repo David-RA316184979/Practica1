@@ -59,4 +59,4 @@ for p,k in zip(plaintext, keystream):
 #con format(c, '02X') se toma el número ascii del for que recorre ciphertext y lo transforma a hexadecimal en formato tradicional
 # con join() podemos unir toda la cadena de caracteres 
 ciphertext = ''.join([format(c, '02X') for c in ciphertext])
-print(ciphertext)
+print(ciphertext) 
