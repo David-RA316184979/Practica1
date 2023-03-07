@@ -8,6 +8,7 @@ def EncontrarHexa(texto):
     existe = re.findall(patron, texto)
     return len(existe) > 0
 
+
 def KSA(key):
     key_length = len(key) 
     S = list(range(256))
@@ -40,6 +41,11 @@ for line in fileinput.input():
 
 key = lines[0].strip()
 textoclaro = lines[1].strip()
+#key = "Secret"
+#textoclaro = "Attack at dawn"
+#textoclaro = "BBF316E8D940AF0AD3"
+
+
 
 keystream = RC4(key)
 #convierte en bytes la cadena
@@ -53,4 +59,5 @@ for p,k in zip(plaintext, keystream):
 #con format(c, '02X') se toma el número ascii del for que recorre ciphertext y lo transforma a hexadecimal en formato tradicional
 # con join() podemos unir toda la cadena de caracteres 
 ciphertext = ''.join([format(c, '02X') for c in ciphertext])
-print(ciphertext) 
+print(ciphertext)
+
